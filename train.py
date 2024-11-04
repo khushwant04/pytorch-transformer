@@ -1,6 +1,8 @@
+import stat
 import torch 
 import torch.nn as nn 
 from torch.utils.data import Dataset, DataLoader, random_split
+from config import get_weights_file_path
 from dataset import BilingualDataset, causal_mask
 from model import build_transformer
 from datasets import load_dataset
@@ -9,6 +11,7 @@ from tokenizers.models import WordLevel
 from tokenizers.trainers import WordLevelTrainer
 from tokenizers.pre_tokenizers import Whitespace
 from pathlib import Path
+from torch.utils.tensorboard import SummaryWriter
 
 def get_all_sentences(ds, lang):
     for item in ds:
@@ -64,3 +67,42 @@ def get_ds(config):
 def get_model(config, vocab_src_len, vocab_tgt_len):
     model = build_transformer(vocab_src_len, vocab_tgt_len, config['seq_len'], config['seq_len'], config['d_model'])
     return model   
+
+def train_model(config):
+    # Define the device
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Using device {device}")
+    if (device == 'cuda'):
+        print(f"Device name: {torch.cuda.get_device_name(device.index)}")
+        print(f"Device memory: {torch.cuda.get_device_properties(device.index).total_memory / 1024 ** 3} GB")
+    elif (device == 'mps'):
+        print(f"Device name: <mps>")
+    else:
+        print("NOTE: If you have a GPU, consider using it for training.")
+    device = torch.device(device)
+    
+    Path(config['model_folder']).mkdir(parents=True, exist_ok=True)
+    train_dataloader, val_dataloader, tokenizer_src, tokenizer_tgt = get_ds(config)
+    model = get_model(config, tokenizer_src.get_vocab_size(), tokenizer_tgt.get_vocab_size()).to(device)
+    
+    # Tensorboard
+    writer = SummaryWriter(config['experiment_name'])
+    
+    optimizer = torch.optim.Adam(model.parameters(), lr=config['lr'], eps = 1e-9)
+    
+    # If the user specified a model to preload before training, load it
+    initial_epoch = 0
+    global_step = 0
+    preload = config['preload']
+    model_filename = latest_weights_file_path(config) if preload == "latest" else get_weights_file_path(config, preload) if preload else None
+    if model_filename:
+        print(f"Preloading model {model_filename}")
+        state = torch.load(model_filename)
+        model.load_state_dict(state['model_state_dict'])
+        initial_epoch = state['epoch'] + 1
+        optimizer.load_state_dict(state['optimizer_state_dict'])
+        global_step = state['global_step']
+    else:
+        print("No model to preload, starting from scratch")
+            
+    
