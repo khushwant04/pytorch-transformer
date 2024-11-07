@@ -2,7 +2,6 @@ from model import build_transformer
 from dataset import BilingualDataset, causal_mask
 from config import get_config, get_weights_file_path, latest_weights_file_path
 
-import torchtext.datasets as datasets
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader, random_split
@@ -78,9 +77,7 @@ def run_validation(model, validation_ds, tokenizer_src, tokenizer_tgt, max_len, 
             encoder_mask = batch["encoder_mask"].to(device) # (b, 1, 1, seq_len)
             
             # check that the batch size is 1
-            assert encoder_input.size(
-                0 == 1, "batch size must be 1 for the validation"
-            )
+            assert encoder_input.size(0) == 1, "batch size must be 1 for the validation"
             
             model_out = greedy_decode(model, encoder_input, encoder_mask, tokenizer_src, tokenizer_tgt, max_len, device)
             
@@ -107,13 +104,13 @@ def run_validation(model, validation_ds, tokenizer_src, tokenizer_tgt, max_len, 
         # Compute the char error rate
         metric = torchmetrics.CharErrorRate()
         cer = metric(predicted, expected)
-        writer.add_scaler('validation cer', cer, global_step)
+        writer.add_scalar('validation cer', cer, global_step)
         writer.flush()
         
         # Compute the BLEU metric
         metric = torchmetrics.BLEUScore()
         bleu = metric(predicted, expected)
-        writer.add_scaler('validation BLEU', bleu, global_step)
+        writer.add_scalar('validation BLEU', bleu, global_step)
         writer.flush()
         
             
