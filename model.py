@@ -1,12 +1,3 @@
-# -----------------------------------------------------------------------------------
-# Code Implementation of "Attention Is All You Need" Transformer Model
-# Author: Khushwant Sanwalot
-# Date: [30-10-2024]
-# Description: This script provides an implementation of the Transformer model as described in 
-#              "Attention Is All You Need" by Vaswani et al., 2017.
-#
-# Libraries Used: Pytorch, math
-# -----------------------------------------------------------------------------------
 import torch
 import torch.nn as nn
 import math
