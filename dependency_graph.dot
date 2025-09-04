@@ -1,0 +1,41 @@
+digraph DependencyGraph {
+    rankdir=LR;
+    node [shape=box, style=filled];
+
+    // Local modules
+    "train" [fillcolor=lightblue, label="train.py"];
+    "model" [fillcolor=lightblue, label="model.py"];
+    "dataset" [fillcolor=lightblue, label="dataset.py"];
+    "config" [fillcolor=lightblue, label="config.py"];
+
+    // External dependencies
+    "datasets" [fillcolor=lightgreen, shape=ellipse];
+    "math" [fillcolor=lightgreen, shape=ellipse];
+    "os" [fillcolor=lightgreen, shape=ellipse];
+    "pathlib" [fillcolor=lightgreen, shape=ellipse];
+    "tokenizers" [fillcolor=lightgreen, shape=ellipse];
+    "torch" [fillcolor=lightgreen, shape=ellipse];
+    "torchmetrics" [fillcolor=lightgreen, shape=ellipse];
+    "tqdm" [fillcolor=lightgreen, shape=ellipse];
+    "warnings" [fillcolor=lightgreen, shape=ellipse];
+
+    // Dependencies
+    "train" -> "model";
+    "train" -> "dataset";
+    "train" -> "dataset";
+    "train" -> "config";
+    "train" -> "config";
+    "train" -> "config";
+    "train" -> "pathlib";
+    "train" -> "datasets";
+    "train" -> "torch";
+    "train" -> "tokenizers";
+    "train" -> "os";
+    "train" -> "tqdm";
+    "train" -> "torchmetrics";
+    "train" -> "warnings";
+    "model" -> "math";
+    "model" -> "torch";
+    "dataset" -> "torch";
+    "config" -> "pathlib";
+}

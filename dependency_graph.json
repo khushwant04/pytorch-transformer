@@ -1,0 +1,105 @@
+{
+  "nodes": [
+    {
+      "id": "train",
+      "type": "local_module",
+      "file": "train.py"
+    },
+    {
+      "id": "model",
+      "type": "local_module",
+      "file": "model.py"
+    },
+    {
+      "id": "dataset",
+      "type": "local_module",
+      "file": "dataset.py"
+    },
+    {
+      "id": "config",
+      "type": "local_module",
+      "file": "config.py"
+    }
+  ],
+  "edges": [
+    {
+      "from": "train",
+      "to": "model",
+      "type": "local"
+    },
+    {
+      "from": "train",
+      "to": "dataset",
+      "type": "local"
+    },
+    {
+      "from": "train",
+      "to": "dataset",
+      "type": "local"
+    },
+    {
+      "from": "train",
+      "to": "config",
+      "type": "local"
+    },
+    {
+      "from": "train",
+      "to": "config",
+      "type": "local"
+    },
+    {
+      "from": "train",
+      "to": "config",
+      "type": "local"
+    }
+  ],
+  "external_dependencies": [
+    "pathlib",
+    "math",
+    "datasets",
+    "torch",
+    "tokenizers",
+    "os",
+    "tqdm",
+    "torchmetrics",
+    "warnings"
+  ],
+  "local_dependencies": {
+    "train": {
+      "local": [
+        "model",
+        "config",
+        "dataset"
+      ],
+      "external": [
+        "pathlib",
+        "datasets",
+        "torch",
+        "tokenizers",
+        "os",
+        "tqdm",
+        "torchmetrics",
+        "warnings"
+      ]
+    },
+    "model": {
+      "local": [],
+      "external": [
+        "math",
+        "torch"
+      ]
+    },
+    "dataset": {
+      "local": [],
+      "external": [
+        "torch"
+      ]
+    },
+    "config": {
+      "local": [],
+      "external": [
+        "pathlib"
+      ]
+    }
+  }
+}
