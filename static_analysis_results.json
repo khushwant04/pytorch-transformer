@@ -1,0 +1,153 @@
+{
+  "files_analyzed": 4,
+  "total_lines": 530,
+  "total_functions": 42,
+  "total_classes": 13,
+  "complexity_analysis": {
+    "train": {
+      "total_complexity": 25,
+      "functions": 7,
+      "classes": 0,
+      "avg_complexity": 3.5714285714285716
+    },
+    "model": {
+      "total_complexity": 46,
+      "functions": 28,
+      "classes": 12,
+      "avg_complexity": 1.15
+    },
+    "dataset": {
+      "total_complexity": 13,
+      "functions": 4,
+      "classes": 1,
+      "avg_complexity": 2.6
+    },
+    "config": {
+      "total_complexity": 5,
+      "functions": 3,
+      "classes": 0,
+      "avg_complexity": 1.6666666666666667
+    }
+  },
+  "documentation_analysis": {
+    "train": {
+      "coverage": 0.0,
+      "documented_functions": 0,
+      "total_functions": 7,
+      "documented_classes": 0,
+      "total_classes": 0
+    },
+    "model": {
+      "coverage": 0.0,
+      "documented_functions": 0,
+      "total_functions": 28,
+      "documented_classes": 0,
+      "total_classes": 12
+    },
+    "dataset": {
+      "coverage": 0.0,
+      "documented_functions": 0,
+      "total_functions": 4,
+      "documented_classes": 0,
+      "total_classes": 1
+    },
+    "config": {
+      "coverage": 0.0,
+      "documented_functions": 0,
+      "total_functions": 3,
+      "documented_classes": 0,
+      "total_classes": 0
+    }
+  },
+  "quality_issues": [
+    {
+      "type": "long_function",
+      "file": "train.py",
+      "function": "run_validation",
+      "line": 56,
+      "length": 59,
+      "message": "Function 'run_validation' is 59 lines long (>50)"
+    },
+    {
+      "type": "too_many_parameters",
+      "file": "train.py",
+      "function": "run_validation",
+      "line": 56,
+      "parameters": 10,
+      "message": "Function 'run_validation' has too many parameters (10 > 7)"
+    },
+    {
+      "type": "long_function",
+      "file": "train.py",
+      "function": "train_model",
+      "line": 174,
+      "length": 86,
+      "message": "Function 'train_model' is 86 lines long (>50)"
+    },
+    {
+      "type": "poor_documentation",
+      "file": "train.py",
+      "coverage": 0.0,
+      "message": "Poor documentation coverage (0.0% < 50%)"
+    },
+    {
+      "type": "too_many_parameters",
+      "file": "model.py",
+      "function": "build_transformer",
+      "line": 226,
+      "parameters": 9,
+      "message": "Function 'build_transformer' has too many parameters (9 > 7)"
+    },
+    {
+      "type": "too_many_parameters",
+      "file": "model.py",
+      "function": "__init__",
+      "line": 200,
+      "parameters": 8,
+      "message": "Function '__init__' has too many parameters (8 > 7)"
+    },
+    {
+      "type": "poor_documentation",
+      "file": "model.py",
+      "coverage": 0.0,
+      "message": "Poor documentation coverage (0.0% < 50%)"
+    },
+    {
+      "type": "long_function",
+      "file": "dataset.py",
+      "function": "__getitem__",
+      "line": 24,
+      "length": 63,
+      "message": "Function '__getitem__' is 63 lines long (>50)"
+    },
+    {
+      "type": "poor_documentation",
+      "file": "dataset.py",
+      "coverage": 0.0,
+      "message": "Poor documentation coverage (0.0% < 50%)"
+    },
+    {
+      "type": "poor_documentation",
+      "file": "config.py",
+      "coverage": 0.0,
+      "message": "Poor documentation coverage (0.0% < 50%)"
+    }
+  ],
+  "recommendations": [
+    {
+      "type": "documentation",
+      "priority": "high",
+      "message": "Add documentation. Current coverage: 0.0%"
+    },
+    {
+      "type": "testing",
+      "priority": "high",
+      "message": "Add unit tests - no test files found"
+    },
+    {
+      "type": "build",
+      "priority": "medium",
+      "message": "Add setup.py or pyproject.toml for package management"
+    }
+  ]
+}

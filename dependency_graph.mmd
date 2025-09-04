@@ -1,0 +1,38 @@
+graph TD
+    train[train.py]
+    model[model.py]
+    dataset[dataset.py]
+    config[config.py]
+    torch[torch<br/>torch, torchmetrics]
+    torch:::external
+    huggingface[huggingface<br/>datasets, tokenizers]
+    huggingface:::external
+    utils[utils<br/>tqdm]
+    utils:::external
+    stdlib[stdlib<br/>os, pathlib, warnings, math]
+    stdlib:::external
+    train --> model
+    train --> dataset
+    train --> dataset
+    train --> config
+    train --> config
+    train --> config
+    train --> stdlib
+    train --> huggingface
+    train --> torch
+    train --> huggingface
+    train --> stdlib
+    train --> utils
+    train --> torch
+    train --> stdlib
+    model --> stdlib
+    model --> torch
+    dataset --> torch
+    config --> stdlib
+
+    classDef external fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef local fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    train:::local
+    model:::local
+    dataset:::local
+    config:::local
