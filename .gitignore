@@ -3,3 +3,11 @@ __init__
 runs
 weights
 opus_books_weights
+
+# Python / tooling
+*.pyc
+.venv/
+venv/
+.env
+.ipynb_checkpoints/
+*.pt

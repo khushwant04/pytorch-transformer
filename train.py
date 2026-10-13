@@ -25,7 +25,7 @@ from torch.utils.tensorboard import SummaryWriter
 
 def greedy_decode(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_len, device):
     sos_idx = tokenizer_tgt.token_to_id('[SOS]')
-    eos_idx = tokenizer_src.token_to_id('[EOS]')
+    eos_idx = tokenizer_tgt.token_to_id('[EOS]')
     
     # Precompute the encoder output and reuse it for every step 
     encoder_output = model.encode(source, source_mask)
@@ -153,7 +153,7 @@ def get_ds(config):
     
     for item in ds_raw:
         src_ids = tokenizer_src.encode(item['translation'][config['lang_src']]).ids
-        tgt_ids = tokenizer_src.encode(item['translation'][config['lang_tgt']]).ids
+        tgt_ids = tokenizer_tgt.encode(item['translation'][config['lang_tgt']]).ids
         max_len_src = max(max_len_src, len(src_ids))
         max_len_tgt = max(max_len_tgt, len(tgt_ids))
         
@@ -175,10 +175,10 @@ def train_model(config):
     # Define the device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device {device}")
-    if (device == 'cuda'):
+    if device.type == 'cuda':
         print(f"Device name: {torch.cuda.get_device_name(device.index)}")
         print(f"Device memory: {torch.cuda.get_device_properties(device.index).total_memory / 1024 ** 3} GB")
-    elif (device == 'mps'):
+    elif device.type == 'mps':
         print(f"Device name: <mps>")
     else:
         print("NOTE: If you have a GPU, consider using it for training.")
@@ -208,7 +208,7 @@ def train_model(config):
     else:
         print("No model to preload, starting from scratch")
     
-    loss_fn = nn.CrossEntropyLoss(ignore_index=tokenizer_src.token_to_id('[PAD]'), label_smoothing=0.1).to(device)   
+    loss_fn = nn.CrossEntropyLoss(ignore_index=tokenizer_tgt.token_to_id('[PAD]'), label_smoothing=0.1).to(device)   
     
     for epoch in range(initial_epoch, config['num_epochs']):
         torch.cuda.empty_cache()
